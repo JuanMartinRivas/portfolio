@@ -89,117 +89,35 @@ Small businesses and independent professionals need a simple way to publish avai
 - Next: payment integration, timezone-aware external calendar sync (Google/Outlook), and a small admin dashboard.
 
 ## Calcudolar - Conversion app
-![Alt text](oralik.jpeg "Oralik home page")
 
-Project: Calcudolar — Front-end currency converter
-Role: Solo developer — Front-end (React + Vite)
-Stack: React (hooks) • Vite • dolarApi (public exchange rates API) • Netlify / Vercel (deployment) • CSS modules / plain CSS
+![Alt text](calcudolar.png "Calcudolar")
 
-Summary
+- **Project:** Calcudolar - Front-end currency converter
+- **Role:** Solo developer - Front-end (React + Vite)
+- **Stack:** React (hooks), Vite, dolarApi (public exchange rates API), Netlify / Vercel (deployment), CSS modules / plain CSS
 
-Calcudolar is a lightweight, mobile-friendly currency conversion tool built as a front-end only app. It fetches exchange rates from dolarApi and gives users a fast, simple interface to convert ARS ↔ USD (and other common conversions). The goal was a tiny, reliable tool that’s pleasant to use on phones and that demonstrates clean React patterns and API integration.
+### Summary
 
-Live demo: (add demo link) · Code: https://github.com/JuanMartinRivas/calcudolar
+Calcudolar is a lightweight, mobile-friendly currency conversion tool built as a front-end only app. It fetches exchange rates from `dolarApi` and gives users a fast, simple interface to convert ARS to USD (at different exchange rates). The goal was a tiny, reliable tool that’s pleasant to use on phones and that demonstrates clean React patterns and API integration.
 
-Problem & goal
+**Live demo:** [Calcudolar](calcudolar.vercel.app); Code: https://github.com/JuanMartinRivas/calcudolar
+
+### Problem & goal
 
 Many currency widgets are bloated or slow. I wanted a single-purpose, ultra-fast converter that:
 
-Queries a trusted rates endpoint (dolarApi).
+- Queries a trusted rates endpoint (dolarApi).
 
-Gives instant conversions with clear input / output UX.
+- Gives instant conversions with clear input / output UX.
 
-Works well on mobile (fast, accessible, minimal data usage).
+- Works well on mobile (fast, accessible, minimal data usage).
 
-Serves as a public front-end sample showing good React architecture.
+- Serves as a public front-end sample showing good React architecture.
 
-Solution overview
+### Solution overview
 
-A responsive single-page React app that fetches the latest rates and calculates conversions client-side.
+- A responsive single-page React app that fetches the latest rates and calculates conversions client-side.
 
-Minimal UI: amount input, currency selector, live result, and small history of recent queries.
+- Minimal UI: amount input, currency selector, live result, and small history of recent queries.
 
-Defensive fetching with error handling and caching to reduce API load and improve perceived speed.
-
-Implementation highlights
-
-1. Clean React structure (hooks + composition)
-
-useRates custom hook: encapsulates fetching, caching (sessionStorage), loading & error states, and request cancellation.
-
-Stateless presentational components for Input, CurrencySelect, ResultCard, and SmallHistory.
-
-2. API integration
-
-Uses dolarApi via a simple REST fetch. Requests are debounced on input to avoid spamming the API.
-
-Basic caching strategy: store last-fetched rates in sessionStorage with a short TTL so the app is snappy during a single browsing session.
-
-Fetch pattern (illustrative snippet)
-
-// useRates.js (simplified)
-useEffect(() => {
-const controller = new AbortController();
-async function load() {
-setLoading(true);
-try {
-const res = await fetch('https://dolarapi.example/rates', { signal: controller.signal });
-const json = await res.json();
-setRates(json);
-sessionStorage.setItem('rates', JSON.stringify({ data: json, ts: Date.now() }));
-} catch (err) {
-if (err.name !== 'AbortError') setError(err);
-} finally {
-setLoading(false);
-}
-}
-const cached = sessionStorage.getItem('rates');
-if (cached && (Date.now() - JSON.parse(cached).ts) < 5*60*1000) {
-setRates(JSON.parse(cached).data);
-} else {
-load();
-}
-return () => controller.abort();
-}, []);
-
-3. UX & accessibility
-
-Mobile-first layout with large touch targets.
-
-Keyboard accessible inputs, properly labeled form controls, and ARIA roles for dynamic content.
-
-Lightweight animations (prefers-reduced-motion respected).
-
-4. Quality
-
-Unit tests for conversion logic (pure functions), basic smoke tests for components (Jest + React Testing Library).
-
-Linted code and small precommit hooks to keep commits tidy.
-
-Key challenges & how I solved them
-
-Unreliable / rate-limited API: added client-side cache + exponential backoff retry for transient errors.
-
-Preventing excessive requests while typing: implemented debounced input (300ms) so conversions feel instant but polite to the API.
-
-Mobile performance: chose Vite for fast dev builds and optimized the production bundle (code splitting + minimized assets).
-
-What this demonstrates to employers
-
-Practical React skills: custom hooks, component composition, state management and side-effect control.
-
-Real-world API integration patterns (fetch, cancellation, caching, retry).
-
-Attention to product details: fast UX, accessibility, and deployable front-end pipelines.
-
-Ability to build and ship a polished small product end-to-end as a front-end engineer.
-
-Next steps / roadmap
-
-Add PWA support + offline conversions (use cached rates when offline).
-
-Small analytics to track feature usage (which conversions are most common).
-
-Add a “compare historical” chart (rates over time) using a lightweight chart lib.
-
-Provide an embeddable widget version for small sites.
+- Defensive fetching with error handling and caching to reduce API load and improve perceived speed.
