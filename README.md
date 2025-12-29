@@ -64,6 +64,10 @@ Small businesses and independent professionals need a simple way to publish avai
 
 - UI uses optimistic updates with rollback on conflict for perceived snappiness.
 
+**Tested with**
+- Jest
+- React Native Testing Library
+
 ### Challenges & how I solved them
 
 - Overlapping availability / double-booking - used Firestore transactions and defensive checks before confirming bookings.
