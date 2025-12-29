@@ -1,4 +1,4 @@
-# Pojects
+# Projects
 
 ## Oralik - Dentistry booking app
 
