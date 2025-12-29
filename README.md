@@ -100,7 +100,7 @@ Small businesses and independent professionals need a simple way to publish avai
 
 Calcudolar is a lightweight, mobile-friendly currency conversion tool built as a front-end only app. It fetches exchange rates from `dolarApi` and gives users a fast, simple interface to convert ARS to USD (at different exchange rates). The goal was a tiny, reliable tool that’s pleasant to use on phones and that demonstrates clean React patterns and API integration.
 
-**Live demo:** calcudolar.vercel.app; Code: https://github.com/JuanMartinRivas/calcudolar
+**Live demo:** https://calcudolar.vercel.app; Code: https://github.com/JuanMartinRivas/calcudolar
 
 ### Problem & goal
 
